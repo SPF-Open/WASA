@@ -14,7 +14,7 @@ Web app to search through "Assessment"
 
 
 ## Project Overview
-The Assessment Search Web Application is a user-friendly and privacy-conscious tool designed to facilitate the search and retrieval of assessment data while adhering to stringent data protection standards, particularly the General Data Protection Regulation (GDPR). This web application focuses on the following key objectives:
+The Assessment Search Web Application is a user-friendly and privacy-conscious tool designed to facilitate the search and retrieval of assessment data while adhering to stringent data protection standards, particularly the General Data Protection Regulation (GDPR).
 
 ## Purpose
 The primary purpose of this web application is to enable users to search and access assessment data securely and conveniently. It caters to scenarios where users possess local assessment files, ensuring that data never leaves the user's device and fully respects GDPR privacy requirements.

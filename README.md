@@ -1,41 +1,47 @@
-# WASA
+# Svelte + TS + Vite
 
-Web app to search through "Assessment"
+This template should help get you started developing with Svelte and TypeScript in Vite.
 
-## Table of Contents
+## Recommended IDE Setup
 
-- [Project Overview](#project-overview)
-- [Purpose](#purpose)
-- [Features](#features)
-- [Use Cases](#use-cases)
-- [Contributing](#contributing)
-- [License](#license)
-- [Conclusion](#conclusion)
+[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
 
+## Need an official Svelte framework?
 
-## Project Overview
-The Assessment Search Web Application is a user-friendly and privacy-conscious tool designed to facilitate the search and retrieval of assessment data while adhering to stringent data protection standards, particularly the General Data Protection Regulation (GDPR).
+Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
 
-## Purpose
-The primary purpose of this web application is to enable users to search and access assessment data securely and conveniently. It caters to scenarios where users possess local assessment files, ensuring that data never leaves the user's device and fully respects GDPR privacy requirements.
+## Technical considerations
 
-## Features
-1. Local File Upload: Users can upload their own assessment files directly from their local devices. The web application does not require data to be uploaded to external servers, ensuring data privacy.
+**Why use this over SvelteKit?**
 
-2. Privacy Compliance: The application strictly adheres to GDPR guidelines, ensuring the protection of personal and sensitive information. No data is stored or processed outside the user's local environment.
+- It brings its own routing solution which might not be preferable for some users.
+- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
 
-3. User-Friendly Search: A user-friendly interface allows users to search, filter, and sort assessment data efficiently. Intuitive search options make it easy to find specific assessments.
+This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
 
-4. User Documentation: Clear and concise documentation is provided to guide users on how to upload, search, and manage assessment data effectively.
+Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
 
-5. Database: User can create a database made of multiple assessment to handle a global search on multiple assessment.
+**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
 
-## Use Cases
-This Assessment Search Web Application is attendend to be used by the testing team of FPS Finances.
-No change will be applied to comply to other use-case.
+Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
 
-## Licensing
-This project is open-source and released under a permissive license, ensuring that users can freely use and modify the application while adhering to its guidelines.
+**Why include `.vscode/extensions.json`?**
 
-## Conclusion
-The Assessment Search Web Application provides a secure, user-friendly, and GDPR-compliant solution for searching and managing assessment data. It empowers users to maintain control over their data while simplifying the process of finding and accessing assessment records.
+Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
+
+**Why enable `allowJs` in the TS template?**
+
+While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
+
+**Why is HMR not preserving my local component state?**
+
+HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
+
+If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
+
+```ts
+// store.ts
+// An extremely simple external store
+import { writable } from 'svelte/store'
+export default writable(0)
+```

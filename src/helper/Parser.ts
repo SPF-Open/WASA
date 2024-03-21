@@ -8,10 +8,10 @@ export const readZip = async (zipPath: FileList) => {
   const reader = new ZipReader(zipPath[0].stream());
   const entries = await reader.getEntries();
 
-  return parse(entries);
+  return parseAssement(entries);
 }
 
-export const parse = async (entries: Entry[]) => {
+export const parseAssement = async (entries: Entry[]) => {
   const manifest = entries.find(entry => entry.filename.endsWith("test.xml"));
   if (!manifest) throw new Error("No manifest found");
 
@@ -24,7 +24,6 @@ export const parse = async (entries: Entry[]) => {
   const assessment = Assessment.parse(parsedXml.assessmentTest, manifest.filename.split('/')[1] as string);
 
   return assessment;
-
 };
 
 class Assessment {
@@ -87,6 +86,7 @@ class Item {
     public tools: Array<string> = [],
     public assets: Record<string, any>[] = [],
     public styles: Record<string, any>[] = [],
+    public content = {},
   ) { }
 
   static parse(obj: any) {
@@ -96,4 +96,29 @@ class Item {
     const tools = obj.category ? obj.category.split(" ") : {};
     return new Item(identifier, id, tools);
   }
+
+  addContentFromXML(xml: string) {
+
+  }
+
 }
+
+export const parseItem = async (entries: Entry[], assessment: Assessment) => {
+  return {
+    ...assessment, parts: await parsePart(assessment.parts, entries)
+  }
+}
+
+const parsePart = async (part: Part[], entries: Entry[]): Promise<Part[]> => await Promise.all(part.map(async part =>
+({
+  ...part, parts: await parsePart(part.parts, entries), items: await Promise.all(part.items.map(async item => {
+    const itemEntry = entries.find(entry => entry.filename.endsWith(`${item.id}/qti.xml`));
+    if (!itemEntry) throw new Error("No item found");
+    const writer = new TextWriter();
+    const xml = await itemEntry.getData!(writer);
+    item.addContentFromXML(xml);
+    return item;
+  }))
+} as Part)
+));
+

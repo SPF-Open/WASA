@@ -25,7 +25,7 @@ export const parseAssement = async (entries: Entry[]) => {
   return assessment;
 };
 
-class Assessment {
+export class Assessment {
   constructor(
     public id: string,
     public title: "",
@@ -42,7 +42,7 @@ class Assessment {
   }
 }
 
-class Part {
+export class Part {
   constructor(
     public identifier: string,
     public title = "",
@@ -78,14 +78,14 @@ class Part {
   }
 }
 
-class Item {
+export class Item {
   constructor(
     public identifier: string,
     public id: string,
     public tools: Array<string> = [],
     public assets: Record<string, any>[] = [],
     public styles: Record<string, any>[] = [],
-    public content = {},
+    public content = {assessmentItem : {title:""}},
   ) { }
 
   static parse(obj: any) {
@@ -106,7 +106,7 @@ class Item {
 export const parseItem = async (entries: Entry[], assessment: Assessment) => {
   return {
     ...assessment, parts: await parsePart(assessment.parts, entries)
-  }
+  } as Assessment;
 }
 
 const parsePart = async (part: Part[], entries: Entry[]): Promise<Part[]> => await Promise.all(part.map(async part =>

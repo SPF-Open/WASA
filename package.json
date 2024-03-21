@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@zip.js/zip.js": "^2.7.32",
-    "fast-xml-parser": "^4.3.2"
+    "fast-xml-parser": "^4.3.2",
+    "svelte-atoms": "^0.0.27"
   }
 }

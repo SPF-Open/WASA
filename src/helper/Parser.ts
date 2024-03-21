@@ -1,7 +1,6 @@
 import { ZipReader, type Entry, TextWriter } from '@zip.js/zip.js';
 import { XMLParser } from 'fast-xml-parser';
 
-
 export const readZip = async (zipPath: FileList) => {
   if (!zipPath || !zipPath.length) throw new Error('No file available');
 
@@ -98,9 +97,10 @@ class Item {
   }
 
   addContentFromXML(xml: string) {
-
+    const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: '' });
+    const parsedXml = parser.parse(xml);
+    this.content = parsedXml;
   }
-
 }
 
 export const parseItem = async (entries: Entry[], assessment: Assessment) => {
@@ -122,3 +122,54 @@ const parsePart = async (part: Part[], entries: Entry[]): Promise<Part[]> => awa
 } as Part)
 ));
 
+// class Content {
+//   constructor(
+//     public title: string,
+//     public body: string,
+//     public items: Array<Text | QOExtended | QCM>[],
+//   ) { }
+// }
+
+// class Text {
+//   constructor(
+//     public body: string,
+//     public child : Array<Text | QOShort> = [],
+//   ) { }
+// }
+
+
+// class QOShort {
+//   constructor(
+//     public maxLenght : number = 0,
+//     public hintLength : number = 0,
+//   ) { }
+// }
+
+// class QOExtended extends QOShort {
+//   constructor(
+//     public title: string,
+//     public txt : string,
+//     public maxLenght : number = 0,
+//     public hintLength : number = 0,
+//   ) { super(maxLenght, hintLength) }
+
+// }
+
+// class QCM {
+//   constructor(
+//     public id: string,
+//     public title: string,
+//     public prompt : string,
+//     public choices : Array<Choice>,
+//   ) { }
+// }
+
+// class Choice {
+//   constructor(
+//     public id: string,
+//     public promt: string,
+//     public feedback: string,
+//     public correct: boolean,
+//     public score: number,
+//   ) { }
+// }

@@ -35,5 +35,6 @@
       border: 3px solid #00566b;
       border-radius: 12px;
       margin-left: -1.5px;
+      min-width: max(300px, 60vw);
     }
   </style>

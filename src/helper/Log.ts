@@ -17,7 +17,7 @@ const levels = [Level.ERROR, Level.WARN, Level.INFO, Level.OK];
 const dev = process.env.NODE_ENV === "development";
 
 const svelte = new SvelteError({ l: [...levels, ...(dev ? [Level.DEBUG] : [])] });
-const console = new Log.Console({ l: [Level.DEBUG, ...(dev ? levels : [])] });
+const console = new Log.Console();
 
-const logger = new Log.Logger({ t: [svelte, console] })
+const logger = new Log.Logger({ t: [svelte, ...(dev ? [console] : [])] })
 export default logger;
